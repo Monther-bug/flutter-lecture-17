@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lecture 21 · Email &amp; Password Auth</title>
+  <meta name="description" content="Mobile App Development with Flutter, Lecture 21: Turn the login and sign-up pages into real ones with Firebase Authentication: read fields with TextEditingController, sign up, sign in and sign out, show friendly error messages, and stay logged in with an AuthGate.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="flutter-logo" viewBox="0 0 166 210">
+    <path fill="#44D1FD" d="M10 101 100 11h56L38 129z"/>
+    <path fill="#1FBCFD" d="M51 150 100 102h56l-77 76z"/>
+    <path fill="#08589C" d="M79 178 107 150l49 49h-56z"/>
+  </symbol>
+  <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 3v12"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-windows" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9"/><path d="M2 19.5 4 16h16l2 3.5a1 1 0 0 1-.9 1.5H2.9a1 1 0 0 1-.9-1.5z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3z"/><path d="M5 3v4M3 5h4M19 17v4M17 19h4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><path d="M22 12H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/><path d="M6 16h.01M10 16h.01"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.6a11 11 0 0 1 14 0"/><path d="M1.4 9a16 16 0 0 1 21.2 0"/><path d="M8.5 16.1a6 6 0 0 1 7 0"/><path d="M12 20h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="m7.5 4.3 9 5.1"/><path d="M21 8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-terminal" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><path d="M12 19h8"/></symbol>
+  <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-mouse" viewBox="0 0 24 24"><path d="m4 4 7 17 2.5-7.5L21 11z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-chrome" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="M21.2 8H12M3.9 6.1 8.5 14M10.9 21.9l4.6-7.9"/></symbol>
+  <symbol id="i-cable" viewBox="0 0 24 24"><path d="M17 21v-2a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1v2"/><path d="M19 15V6.5a3.5 3.5 0 0 0-7 0v11a3.5 3.5 0 0 1-7 0V9"/><path d="M3 9V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 7c-1.5-1.3-4.5-1.6-6 .5-1.6 2.3-1 6.6 1.3 9.9 1 1.4 2 2.6 3.2 2.5.9 0 1.2-.6 1.5-.6s.6.6 1.5.6c1.2.1 2.2-1.1 3.2-2.5 2.3-3.3 2.9-7.6 1.3-9.9-1.5-2.1-4.5-1.8-6-.5z"/><path d="M12 7c0-2 1-3.5 3-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3c.5.6.3 1.7-.5 2.2-.6.3-1.3.5-2 .5z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="firebase-logo" viewBox="0 0 120 160">
+    <path fill="#F57C00" d="M12 128 60 38a3 3 0 0 1 5.3 0L80 66z"/>
+    <path fill="#FFCA28" d="M12 128 33.5 10a3 3 0 0 1 5.6-1L64 55z"/>
+    <path fill="#FFA000" d="M12 128 92 32a3 3 0 0 1 5.2 1.6L110 128l-45 25a6 6 0 0 1-6 0z"/>
+  </symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.3l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-log-in" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><path d="M15 12H3"/></symbol>
+  <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<main class="deck">
+
+<!-- 01 · Title -->
+<section class="slide">
+  <div class="canvas"><div class="frame frame--title" style="grid-template-columns: 1.08fr .92fr;">
+    <div class="stagger">
+      <p class="kicker">Lecture 21 · Mobile App Development</p>
+      <h1 class="hero">Firebase 2:<br>Email &amp; Password<br><span class="grad-text">Authentication</span></h1>
+      <p class="lead lead--hero">Real accounts for our login page.</p>
+      <div class="chips">
+        <span class="chip"><span class="avatar">MI</span>Eng. Monther Ibrahim</span>
+        <span class="chip"><span class="avatar">M</span>Muhammad, M.Sc.</span>
+        <span class="chip">Fall 2026</span>
+      </div>
+      <p class="keys"><kbd>→</kbd> next &nbsp;·&nbsp; <kbd>F</kbd> fullscreen &nbsp;·&nbsp; <kbd>N</kbd> notes &nbsp;·&nbsp; <kbd>T</kbd> theme</p>
+    </div>
+    <div class="title-right" aria-hidden="true" style="display:grid; place-items:center;">
+      <div class="logo-glow" style="left:calc(50% - 13cqw); top:-4%;"></div>
+      <div style="position:relative; display:grid; justify-items:center; gap:2cqw;">
+        <svg class="logo" style="width:4.4cqw; height:5.9cqw; filter:drop-shadow(0 .8cqw 1.4cqw rgba(245,124,0,.35));"><use href="#firebase-logo"/></svg>
+        <div style="display:flex; align-items:center; gap:.6cqw;">
+          <div class="ph" style="--pw:10.4cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="appbar"><svg class="ico ico-m"><use href="#i-arrow-left"/></svg></div>
+              <div class="col" style="gap:.75em; padding-top:.4em;">
+                <div class="m-title" style="text-align:center;">Create account</div>
+                <div class="m-sub" style="text-align:center;">Sign up to get started</div>
+                <div class="m-field" style="margin-top:.8em;"><span class="lbl">Name</span><svg class="ico"><use href="#i-user"/></svg>Ali</div>
+                <div class="m-field"><span class="lbl">Email</span><svg class="ico"><use href="#i-mail"/></svg>ali@email.ly</div>
+                <div class="m-field"><span class="lbl">Password</span><svg class="ico"><use href="#i-lock"/></svg>••••••</div>
+                <div class="m-btn m-btn--fill is-wide" style="margin-top:.6em;">Create account</div>
+              </div>
+            </div>
+          </div>
+          <svg class="ico" style="font-size:1.8cqw; color:var(--sky); stroke-width:2.2;"><use href="#i-arrow-right"/></svg>
+          <div class="ph" style="--pw:10.4cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="appbar">Home</div>
+              <div class="col" style="gap:.6em; padding-top:1.4em; text-align:center;">
+                <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+                <div class="m-title" style="margin-top:.5em;">Welcome, Ali!</div>
+                <div class="m-sub">You are logged in as ali@email.ly</div>
+                <div style="font-size:.6em; color:#9E9E9E; overflow-wrap:anywhere;">uid: 9fXq2LmR7tKbW4cYp1NzA8sHdE53</div>
+                <div class="m-btn m-btn--fill is-wide" style="margin-top:1.2em;">Logout</div>
+              </div>
+            </div>
+          </div>
+          <svg class="ico" style="font-size:1.8cqw; color:var(--sky); stroke-width:2.2;"><use href="#i-arrow-right"/></svg>
+          <div class="ph" style="--pw:10.4cqw;">
+            <div class="ph__scr"><div class="ph__island"></div>
+              <div class="col" style="gap:.75em; padding-top:2.6em;">
+                <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+                <div class="m-title" style="text-align:center;">Welcome back</div>
+                <div class="m-sub" style="text-align:center;">Log in to continue</div>
+                <div class="m-field" style="margin-top:.5em;"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+                <div class="m-field"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+                <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+                <div class="m-btn m-btn--fill is-wide">Login</div>
+                <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <aside class="notes"><p>In Lecture 20 we connected the app to Firebase. Today the buttons stop showing fake SnackBars: every account you create appears in the Firebase console.</p><p>The three phones are today's story: sign up as Ali, land on Home, log out, and come back to the login page.</p></aside>
+</section>
+
+<!-- 02 · Learning objectives -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Today</p>
+      <h2 class="title">Learning objectives</h2>
+      <p class="lead">The Lecture 8 login page gets <b>real accounts</b>: every account you create appears in the Firebase console.</p>
+    </header>
+    <div class="body" style="grid-template-rows: 1fr auto;">
+      <div class="journey stagger">
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-keyboard"/></svg><span class="stop__n">1</span></div><h3>Read the fields</h3><p>with a <code>TextEditingController</code></p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-user-plus"/></svg><span class="stop__n">2</span></div><h3>Sign up, in, out</h3><p>with Firebase</p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-message"/></svg><span class="stop__n">3</span></div><h3>Show messages</h3><p>loading, success and friendly errors</p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-shield"/></svg><span class="stop__n">4</span></div><h3>Stay logged in</h3><p>after a restart, with an <code>AuthGate</code></p></div>
+        <div class="stop" style="align-content:start;"><div class="stop__dot"><svg class="ico"><use href="#i-package"/></svg><span class="stop__n">5</span></div><h3>One service</h3><p>all Firebase code in one <code>AuthService</code> class</p></div>
+      </div>
+      <div class="callout callout--ok goal"><svg class="ico"><use href="#i-target"/></svg><div><b>Goal:</b> close the app completely, open it again, and you are <b>still logged in</b>, like in real apps.</div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Tell students that at the end they will close the app completely, open it again, and still be logged in, like in real apps.</p></aside>
+</section>
+
+<!-- 03 · Today: real accounts -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">The big picture</p>
+      <h2 class="title">Today: real accounts</h2>
+    </header>
+    <div class="body" style="grid-template-rows: auto 1fr; gap: 2.2cqw; align-content:start;">
+      <table class="tbl">
+        <thead><tr><th style="width:17%;"><svg class="ico"><use href="#i-user"/></svg>Action</th><th><svg class="ico"><use href="#i-activity"/></svg>When</th><th><svg class="ico"><use href="#i-code"/></svg>Firebase method</th></tr></thead>
+        <tbody>
+          <tr><td>Sign up</td><td>a new user creates an account</td><td><code>createUserWithEmailAndPassword</code></td></tr>
+          <tr><td>Sign in</td><td>a returning user opens their account</td><td><code>signInWithEmailAndPassword</code></td></tr>
+          <tr><td>Sign out</td><td>the user leaves</td><td><code>signOut()</code></td></tr>
+        </tbody>
+      </table>
+      <svg class="flow" viewBox="0 0 1000 232" role="img" aria-label="App flow: App starts, AuthGate asks is someone signed in; no goes to LoginPage which switches with SignUpPage; yes goes to HomePage; Logout goes back to LoginPage">
+        <defs><marker id="fa3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="fl-head" d="M0 0 10 5 0 10z"/></marker></defs>
+        <rect class="fl-box" x="8" y="86" width="150" height="60" rx="12"/>
+        <text class="fl-t fl-tb" x="83" y="116">App starts</text>
+        <path class="fl-line" d="M158 116H209" marker-end="url(#fa3)"/>
+        <text class="fl-lbl fl-new" x="328" y="50">NEW TODAY</text>
+        <rect class="fl-key" x="213" y="66" width="230" height="100" rx="14"/>
+        <text class="fl-t" x="328" y="101" style="font-size:21px;">AuthGate</text>
+        <text class="fl-s" x="328" y="135" style="font-size:14px;">is someone signed in?</text>
+        <path class="fl-line" d="M443 96C500 96 505 46 564 46" marker-end="url(#fa3)"/>
+        <text class="fl-lbl fl-yes" x="490" y="56" style="font-size:15px;">yes</text>
+        <path class="fl-line" d="M443 136C500 136 505 186 564 186" marker-end="url(#fa3)"/>
+        <text class="fl-lbl fl-no" x="490" y="178" style="font-size:15px;">no</text>
+        <rect class="fl-g3" x="568" y="16" width="200" height="60" rx="12"/>
+        <text class="fl-t" x="668" y="46">HomePage</text>
+        <rect class="fl-g1" x="568" y="156" width="200" height="60" rx="12"/>
+        <text class="fl-t" x="668" y="186">LoginPage</text>
+        <path class="fl-line" d="M668 76V150" marker-end="url(#fa3)"/>
+        <text class="fl-lbl" x="682" y="114" style="text-anchor:start;">Logout</text>
+        <rect class="fl-g1" x="832" y="156" width="160" height="60" rx="12"/>
+        <text class="fl-t" x="912" y="186">SignUpPage</text>
+        <path class="fl-line" d="M770 176H826" marker-end="url(#fa3)"/>
+        <path class="fl-line" d="M830 197H774" marker-end="url(#fa3)"/>
+      </svg>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Sign up happens once per person, sign in happens many times. Note that a successful sign up also signs the user in, so they go straight to Home.</p><p>Point at the AuthGate box: it is the new idea of today.</p></aside>
+</section>
+
+<!-- 04 · Before we code -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Setup check</p>
+      <h2 class="title">Before we code</h2>
+    </header>
+    <div class="body inside" style="align-items:start;">
+      <div class="card tree tree--wide tree--compact">
+        <div class="row"><span><span class="d">lib/</span></span><span class="note"></span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="f">main.dart</span></span><span class="note"><code>home: AuthGate()</code></span></div>
+        <div class="row is-star"><span><span class="g">├─ </span><span class="f">auth_gate.dart</span></span><span class="note">new: Login or Home?</span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="f">login_page.dart</span></span><span class="note">now really logs in</span></div>
+        <div class="row is-star"><span><span class="g">├─ </span><span class="f">sign_up_page.dart</span></span><span class="note">new</span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="f">home_page.dart</span></span><span class="note">shows the user, Logout</span></div>
+        <div class="row"><span><span class="g">├─ </span><span class="d">services/</span></span><span class="note"></span></div>
+        <div class="row is-star"><span><span class="g">│  └─ </span><span class="f">auth_service.dart</span></span><span class="note">new: all Firebase calls</span></div>
+        <div class="row"><span><span class="g">└─ </span><span class="d">widgets/</span></span><span class="note"></span></div>
+        <div class="row"><span><span class="g">   ├─ </span><span class="f">app_text_field.dart</span></span><span class="note">+ controller, keyboardType</span></div>
+        <div class="row"><span><span class="g">   ├─ </span><span class="f">app_button.dart</span></span><span class="note">+ isLoading</span></div>
+        <div class="row is-star"><span><span class="g">   └─ </span><span class="f">app_snack_bar.dart</span></span><span class="note">new: green / red messages</span></div>
+      </div>
+      <div class="explain stagger">
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Console: <b>Email/Password</b> is <b>Enabled</b> (Lecture 20)</div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>pubspec.yaml</code> has <code>firebase_auth: ^7.0.1</code></div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>main()</code> calls <code>Firebase.initializeApp</code></div></div>
+        <div class="card" style="display:grid; gap:.8cqw; padding:1.3cqw 1.5cqw;">
+          <span class="big-code">FirebaseAuth.instance</span>
+          <p style="font-size:1.32cqw; line-height:1.45;">The <b>one</b> Firebase Auth object in our app: every sign-in method lives on it.</p>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div>A <b>service</b> is a plain Dart class that does one job. Our pages never call Firebase directly: they ask <code>AuthService</code>.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>A <b>service</b> is a plain Dart class that does one job. Our pages will never call Firebase directly: they ask <code>AuthService</code>. If we ever change how login works, we change one file.</p><p><code>lib/firebase_options.dart</code> from Lecture 20 is still there (not shown). The yellow rows are the new files.</p></aside>
+</section>
+
+<!-- 05 · TextEditingController -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 1 · Read the fields</p>
+      <h2 class="title">Reading what the user typed: <code>TextEditingController</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 2cqw; align-items:start;">
+      <div class="term code code--lg">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/login_page.dart</span><span class="grow"></span><span>_LoginPageState</span></div>
+<pre class="hl" data-hl="2-3,7-8,13">class _LoginPageState extends State&lt;LoginPage&gt; {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  // When Login is pressed:
+  // final email = _emailController.text.trim();
+}</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="defs defs--sm" style="gap:1.1cqw;">
+          <div class="def"><code>controller</code><span>Holds the text of <b>one</b> text field. We read it when the button is pressed: <code>.text</code></span></div>
+          <div class="def"><code>.trim()</code><span>Removes spaces at the start and the end: <code>' ali@email.ly '</code> → <code>'ali@email.ly'</code></span></div>
+          <div class="def"><code>State</code><span>Create it in the page's <b>State</b>, so it lives as long as the page</span></div>
+          <div class="def"><code>dispose()</code><span>Runs when the page is closed: free the controllers there</span></div>
+        </div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-field is-tag" data-tag="_emailController" style="margin-top:.8em;"><span class="lbl">Email</span><svg class="ico"><use href="#i-mail"/></svg>ali@email.ly</div>
+            <div class="m-field is-tag" data-tag="_passwordController" style="margin-top:.5em;"><span class="lbl">Password</span><svg class="ico"><use href="#i-lock"/></svg>••••••</div>
+            <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+            <div class="m-btn m-btn--fill is-wide">Login</div>
+            <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>In Lecture 9 we saved the email with <code>onChanged</code> + <code>setState</code>. That works for one field; with three fields (name, email, password) a controller per field is simpler, and we do not rebuild the page on every key press.</p><p>The names start with <code>_</code>: private to this file.</p></aside>
+</section>
+
+<!-- 06 · AppTextField gets a controller -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 1 · Upgrade our widgets</p>
+      <h2 class="title"><code>AppTextField</code> gets a controller</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1.28fr .72fr; grid-template-rows: auto auto; gap: 1.6cqw 2.2cqw; align-items:start; align-content:start;">
+      <div class="term code">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/widgets/app_text_field.dart</span><span class="grow"></span><span>AppTextField</span></div>
+<pre class="hl" data-hl="7-8,11-12">  const AppTextField({
+    super.key,
+    required this.label,
+    required this.icon,
+    this.isPassword = false,
+    this.onChanged,
+    this.controller, // new
+    this.keyboardType = TextInputType.text, // new
+  });
+
+  final TextEditingController? controller; // new: holds the typed text
+  final TextInputType keyboardType; // new: which keyboard to show</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="say" style="font-size:1.32cqw;"><p>In <code>build()</code>, pass both on to the <code>TextField</code>: <code>controller: controller,</code> and <code>keyboardType: keyboardType,</code></p></div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-info"/></svg><div>It stays a <b>StatelessWidget</b>: the controller lives in the page, the field only uses it.</div></div>
+        <div class="card" style="display:grid; gap:.8cqw; padding:1.1cqw 1.3cqw;">
+          <p style="font-size:1.2cqw; line-height:1.4;"><code>TextInputType.emailAddress</code> shows a keyboard with <b>@</b> and <b>.</b></p>
+          <div class="kb" style="justify-content:center;"><span>q</span><span>w</span><span>e</span><span>r</span><span>t</span><span>y</span><span>u</span><span>i</span><span>o</span><span>p</span><span style="min-width:3.2cqw;">123</span><span style="min-width:2.6cqw; background:#FFE082;">@</span><span style="min-width:6cqw;">space</span><span style="min-width:2.6cqw; background:#FFE082;">.</span></div>
+        </div>
+      </div>
+      <div class="term code code--sm" style="grid-column: 1 / -1;">
+        <div class="term__bar"><i></i><i></i><i></i><span>using it · on the login page</span></div>
+<pre class="hl">AppTextField(label: 'Email', icon: Icons.email, controller: _emailController, keyboardType: TextInputType.emailAddress)</pre>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Both parameters are optional (no <code>required</code>), so every page that already uses <code>AppTextField</code> keeps working. Same idea as <code>onChanged</code> in Lecture 9.</p><p>The full file is in the Complete example.</p></aside>
+</section>
+
+<!-- 07 · AppButton gets a loading state -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 1 · Upgrade our widgets</p>
+      <h2 class="title"><code>AppButton</code> gets a loading state</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 2cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/widgets/app_button.dart</span><span class="grow"></span><span>AppButton</span></div>
+<pre class="hl" data-groups="1-2:g2;6-13:g1">  final VoidCallback? onPressed; // null = the button is disabled
+  final bool isLoading; // new: true while we wait for Firebase
+
+  // … in build():
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        child: isLoading
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 3),
+              )
+            : Text(text),
+      ),</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="defs defs--sm">
+          <div class="def"><code>VoidCallback?</code><span>The <code>?</code> means <code>onPressed</code> may be <code>null</code>. A button with <code>onPressed: null</code> is <b>disabled</b> (grey)</span></div>
+          <div class="def"><code>a ? b : c</code><span>"if <code>a</code>, use <code>b</code>, otherwise <code>c</code>"</span></div>
+          <div class="def"><code>= false</code><span>Constructor: <code>this.isLoading = false</code>, so old code keeps working</span></div>
+        </div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-loader"/></svg><div>While loading: a <b>spinner</b> instead of the text, and <b>no second tap</b> (no double accounts).</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-field" style="margin-top:.8em;"><span class="lbl">Email</span><svg class="ico"><use href="#i-mail"/></svg>ali@email.ly</div>
+            <div class="m-field" style="margin-top:.5em;"><span class="lbl">Password</span><svg class="ico"><use href="#i-lock"/></svg>••••••</div>
+            <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em; color:rgba(29,27,32,.38);">Forgot password?</div>
+            <div class="m-btn m-btn--dis is-wide is-tag" data-tag="isLoading: true"><span class="m-spin"></span></div>
+            <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:rgba(29,27,32,.38);">Sign up</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Waiting for a server takes from half a second to a few seconds. Without a loading state, users tap again and again.</p><p>On the phone: while Firebase works, the Login button is grey with a spinner, and "Forgot password?" and "Sign up" are disabled too.</p></aside>
+</section>
+
+<!-- 08 · AuthService · sign up -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 2 · AuthService</p>
+      <h2 class="title"><code>AuthService</code> · sign up</h2>
+      <p class="lead">The class starts with <code style="white-space:nowrap;">final FirebaseAuth _auth = FirebaseAuth.instance;</code></p>
+    </header>
+    <div class="body walk" style="grid-template-columns: 1.32fr .68fr;">
+      <div class="term code">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/services/auth_service.dart</span><span class="grow"></span><span>AuthService</span></div>
+<pre class="hl" data-groups="1:g4;7-9:g1;10:g3;11-12:g2">  Future&lt;String?&gt; signUp({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final UserCredential credential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await credential.user?.updateDisplayName(name);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return messageFor(e.code);
+    }
+  }</pre>
+      </div>
+      <div class="explain stagger">
+        <p style="font-size:1.25cqw; line-height:1.4;">Returns <code>String?</code>:</p>
+        <div class="stats" style="margin-top:-.6cqw;">
+          <div class="card stat stat--ok"><small>Success</small><b style="font-family:var(--font-mono); font-size:2.1cqw;">null</b><span>it worked</span></div>
+          <div class="card stat stat--bad"><small>Error</small><b style="font-size:2.1cqw;">a text</b><span>the error to show the user</span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-user-plus"/></svg><div><code>createUserWithEmailAndPassword</code> creates the account <b>and</b> signs the user in</div></div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-user"/></svg><div><code>credential.user</code> is the new user; <code>updateDisplayName(name)</code> saves the name in Firebase</div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><code>try</code> … <code>on FirebaseAuthException catch (e)</code> (Lecture 19): if Firebase says no, we jump to <code>catch</code></div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p><code>credential.user?.</code> with <code>?.</code> means "only if the user is not null".</p><p>Explain the <code>String?</code> return idea slowly: it keeps the pages very simple, as we will see.</p></aside>
+</section>
+
+<!-- 09 · AuthService · sign in and sign out -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 2 · AuthService</p>
+      <h2 class="title"><code>AuthService</code> · sign in and sign out</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr; gap: 2.2cqw; align-items:start;">
+      <div class="side">
+        <div class="term code code--sm">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/services/auth_service.dart</span><span class="grow"></span><span>AuthService</span></div>
+<pre class="hl" data-groups="1-11:g1;13-15:g2">  Future&lt;String?&gt; signIn({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return messageFor(e.code);
+    }
+  }
+
+  Future&lt;void&gt; signOut() async {
+    await _auth.signOut();
+  }</pre>
+        </div>
+        <div class="term code code--sm">
+          <div class="term__bar"><i></i><i></i><i></i><span>two more one-liners in the class</span></div>
+<pre class="hl" data-groups="1-2:g3">User? get currentUser =&gt; _auth.currentUser;
+Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
+        </div>
+      </div>
+      <div class="explain">
+        <div class="legend-groups stagger">
+          <div class="lg" style="--c:#13B9FD;"><span class="n">1</span><b>signIn</b><span>Same shape as <code>signUp</code>: try, <code>null</code> on success, a message on error</span></div>
+          <div class="lg" style="--c:#FFC857;"><span class="n">2</span><b>signOut()</b><span>Forgets the user on this phone; it returns nothing</span></div>
+          <div class="lg" style="--c:#4ADE80;"><span class="n">3</span><b>Two more one-liners</b><span>The signed-in user, and the stream for the AuthGate</span></div>
+        </div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div><b>Quick check:</b> what does <code>signIn</code> return when the password is wrong? And when it is right?</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Ask: what would <code>signIn</code> return if the password is wrong? (A text, from <code>messageFor</code>.) What if it is right? (<code>null</code>.)</p><p><code>currentUser</code> is the signed-in user or null; <code>authStateChanges()</code> is the stream we use in the AuthGate.</p></aside>
+</section>
+
+<!-- 10 · Friendly messages -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 2 · AuthService</p>
+      <h2 class="title">When things go wrong: friendly messages</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr; gap: 2cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>AuthService</span><span class="grow"></span><span>String messageFor(String code)</span></div>
+<pre class="hl" data-groups="6-8:g2;14:g4">    return switch (code) {
+      'email-already-in-use' =&gt;
+        'This email already has an account. Try logging in.',
+      'invalid-email' =&gt; 'This email address is not valid.',
+      'weak-password' =&gt; 'Password is too weak. Use at least 6 characters.',
+      'invalid-credential' ||
+      'user-not-found' ||
+      'wrong-password' =&gt; 'Wrong email or password.',
+      'user-disabled' =&gt; 'This account has been disabled.',
+      'too-many-requests' =&gt; 'Too many attempts. Wait a minute and try again.',
+      'network-request-failed' =&gt; 'No internet connection. Check your network.',
+      'operation-not-allowed' =&gt;
+        'Email/Password sign-in is not enabled in the Firebase console.',
+      _ =&gt; 'Something went wrong ($code). Please try again.',
+    };</pre>
+      </div>
+      <div class="explain stagger" style="gap:1cqw;">
+        <div class="say" style="font-size:1.25cqw; line-height:1.45;"><p>A <code>FirebaseAuthException</code> has a <b><code>code</code></b>: a short text such as <code>'invalid-credential'</code>. Users should never see it.</p></div>
+        <table class="tbl" style="font-size:1.08cqw;">
+          <thead><tr><th style="padding:.7cqw 1cqw;">Firebase sends</th><th style="padding:.7cqw 1cqw;">The user sees</th></tr></thead>
+          <tbody>
+            <tr><td style="padding:.6cqw 1cqw; width:auto; white-space:nowrap;"><code>invalid-credential</code></td><td style="padding:.6cqw 1cqw;">Wrong email or password.</td></tr>
+            <tr><td style="padding:.6cqw 1cqw; width:auto; white-space:nowrap;"><code>email-already-in-use</code></td><td style="padding:.6cqw 1cqw;">This email already has an account. Try logging in.</td></tr>
+            <tr><td style="padding:.6cqw 1cqw; width:auto; white-space:nowrap;"><code>network-request-failed</code></td><td style="padding:.6cqw 1cqw;">No internet connection. Check your network.</td></tr>
+          </tbody>
+        </table>
+        <div class="say" style="font-size:1.25cqw; line-height:1.45;"><p><code>switch</code> picks the line whose code matches; <code>||</code> means "or"; <code>_</code> means "any other code".</p></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-shield"/></svg><div><b>Email enumeration protection</b> (on by default for new projects since September 2023): a wrong email <b>or</b> a wrong password both give <code>invalid-credential</code>, so strangers cannot find out which emails have accounts. <code>user-not-found</code> / <code>wrong-password</code> only appear in old projects.</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>This is the body of <code>String messageFor(String code)</code> in <code>AuthService</code>. The codes come from the <code>firebase_auth</code> 7.0.1 documentation.</p><p>Show it live: log in with an email that does not exist, then with a wrong password: both show "Wrong email or password.".</p></aside>
+</section>
+
+<!-- 11 · Sign-up page · simple checks first -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 3 · Sign-up page · 1 of 2</p>
+      <h2 class="title">Sign-up page · simple checks first</h2>
+      <p class="lead"><code>lib/sign_up_page.dart</code>: a StatefulWidget with <code>_nameController</code>, <code>_emailController</code>, <code>_passwordController</code>, <code>_authService = AuthService()</code> and <code>bool _isLoading = false</code></p>
+    </header>
+    <div class="body walk" style="grid-template-columns: auto 1fr;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/sign_up_page.dart</span><span class="grow"></span><span>_SignUpPageState</span></div>
+<pre class="hl" data-groups="5-6:g2;8-11:g1;12-15:g3">  Future&lt;void&gt; _createAccount() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    // Simple checks first: no need to ask Firebase about empty fields.
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      showAppSnackBar(messenger, 'Please fill in all fields.', isError: true);
+      return;
+    }
+    if (password.length &lt; 6) {
+      showAppSnackBar(messenger, 'Use at least 6 characters.', isError: true);
+      return;
+    }</pre>
+      </div>
+      <div class="explain stagger" style="gap:1cqw;">
+        <div class="defs defs--sm">
+          <div class="def"><code>6+</code><span>Firebase needs passwords of <b>6+ characters</b>: checking here saves a trip to the server</span></div>
+          <div class="def"><code>return</code><span>Stops the method early: Firebase is not called</span></div>
+        </div>
+        <div class="card" style="display:grid; gap:.7cqw; padding:1cqw 1.2cqw;">
+          <p style="font-size:1.15cqw; line-height:1.4;"><code>showAppSnackBar(messenger, text, isError: true)</code> is our helper: red for errors, green otherwise (<code>lib/widgets/app_snack_bar.dart</code>)</p>
+          <div style="display:flex; flex-wrap:wrap; gap:.6cqw; font-size:1.05cqw;"><span class="msg msg--bad">Please fill in all fields.</span><span class="msg msg--ok">Account created. Welcome, Ali!</span></div>
+        </div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>We take <code>messenger</code> and <code>navigator</code> <b>before</b> any <code>await</code> (next slide explains why).</div></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>We do not trim the password: spaces can be part of a password.</p><p>Firebase checks everything again on the server anyway (<code>invalid-email</code>, <code>weak-password</code>), and <code>messageFor</code> handles those.</p></aside>
+</section>
+
+<!-- 12 · Sign-up page · call Firebase, show the result -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 3 · Sign-up page · 2 of 2</p>
+      <h2 class="title">Sign-up page · call Firebase, show the result</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 1.8cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/sign_up_page.dart</span><span class="grow"></span><span>_createAccount() · continued</span></div>
+<pre class="hl" data-start="16" data-groups="1,8:g2;2-7:g1;13-14:g3">    setState(() =&gt; _isLoading = true);
+    final error = await _authService.signUp(
+      name: name,
+      email: email,
+      password: password,
+    );
+    if (!mounted) return;
+    setState(() =&gt; _isLoading = false);
+    if (error != null) {
+      showAppSnackBar(messenger, error, isError: true);
+      return;
+    }
+    showAppSnackBar(messenger, 'Account created. Welcome, $name!');
+    navigator.pop(); // back to AuthGate, which now shows HomePage
+  }</pre>
+      </div>
+      <div class="explain stagger" style="gap:.9cqw;">
+        <div class="defs defs--sm" style="gap:.7cqw;">
+          <div class="def"><code>setState</code><span><code>() =&gt; _isLoading = true</code>: the button shows a spinner (<code>() =&gt; x = y</code> is short for <code>() { x = y; }</code>)</span></div>
+          <div class="def"><code>await</code><span>Waits for Firebase's answer (Lecture 18)</span></div>
+          <div class="def"><code>mounted</code><span><code>if (!mounted) return;</code>: the user may have left the page meanwhile</span></div>
+        </div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Success: green SnackBar, then <code>pop()</code> back. Underneath, the AuthGate already shows HomePage.</div></div>
+        <div class="callout callout--info"><svg class="ico"><use href="#i-info"/></svg><div>The button: <code style="white-space:nowrap;">AppButton(text: 'Create account',</code> <code style="white-space:nowrap;">isLoading: _isLoading,</code> <code style="white-space:nowrap;">onPressed: _createAccount)</code>. LoginPage's "Sign up" opens this page with <code>Navigator.push</code> (Lecture 9).</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="appbar">Home</div>
+          <div class="col" style="gap:.6em; padding-top:1.6em; text-align:center;">
+            <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+            <div class="m-title" style="margin-top:.5em;">Welcome, Ali!</div>
+            <div class="m-sub">You are logged in as ali@email.ly</div>
+            <div style="font-size:.6em; color:#9E9E9E; overflow-wrap:anywhere;">uid: 9fXq2LmR7tKbW4cYp1NzA8sHdE53</div>
+            <div class="m-btn m-btn--fill is-wide" style="margin-top:1.2em;">Logout</div>
+          </div>
+          <div class="snack snack--ok">Account created. Welcome, Ali!</div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Why <code>messenger</code> before <code>await</code>? After an <code>await</code>, the page (and its <code>context</code>) may already be gone, and the analyzer warns about using <code>context</code> across an await. <code>mounted</code> is true while the page is on the screen.</p><p>The phone shows the result: the sign-up page was popped, the AuthGate shows Home, and the green SnackBar is still visible.</p></aside>
+</section>
+
+<!-- 13 · Login page · _login() -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 4 · Login page</p>
+      <h2 class="title">Login page · <code>_login()</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 1.8cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/login_page.dart</span><span class="grow"></span><span>_LoginPageState</span></div>
+<pre class="hl" data-groups="7:g1;9:g2;10-14:g3">  Future&lt;void&gt; _login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final messenger = ScaffoldMessenger.of(context);
+    // … the same empty-field check as on the sign-up page …
+    setState(() =&gt; _isLoading = true);
+    final error = await _authService.signIn(email: email, password: password);
+    // On success, AuthGate replaces this page, so check `mounted` first.
+    if (mounted) setState(() =&gt; _isLoading = false);
+    if (error != null) {
+      showAppSnackBar(messenger, error, isError: true);
+    } else {
+      showAppSnackBar(messenger, 'Welcome back!');
+    }
+  }</pre>
+      </div>
+      <div class="explain stagger" style="gap:.9cqw;">
+        <div class="callout callout--info"><svg class="ico"><use href="#i-shield"/></svg><div>No <code>Navigator.push</code> to Home any more: the <b>AuthGate</b> switches to HomePage by itself</div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>That is why we write <code>if (mounted) setState(...)</code>: after a successful login this page may already be gone</div></div>
+        <div class="callout"><svg class="ico"><use href="#i-code"/></svg><div>The button: <code style="white-space:nowrap;">AppButton(text: 'Login',</code> <code style="white-space:nowrap;">isLoading: _isLoading,</code> <code style="white-space:nowrap;">onPressed: _login)</code></div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-message"/></svg><div>The SnackBar still appears, on the Home page, because <code>messenger</code> belongs to the whole app</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-field" style="margin-top:.8em;"><span class="lbl">Email</span><svg class="ico"><use href="#i-mail"/></svg>ali@email.ly</div>
+            <div class="m-field" style="margin-top:.5em;"><span class="lbl">Password</span><svg class="ico"><use href="#i-lock"/></svg>•••••••</div>
+            <div class="m-btn m-btn--text" style="align-self:flex-end; height:2em;">Forgot password?</div>
+            <div class="m-btn m-btn--fill is-wide">Login</div>
+            <div class="rowx" style="justify-content:center; font-size:.82em; gap:.25em;"><span>Don't have an account?</span><b style="color:#6750A4;">Sign up</b></div>
+          </div>
+          <div class="snack snack--bad">Wrong email or password.</div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Compare with Lecture 9, where Login pushed <code>HomePage(email: email)</code>. Now the page only signs in; deciding which page to show is the AuthGate's job.</p><p>Calling <code>setState</code> on a page that is gone causes the error "setState() called after dispose()". The phone shows a wrong password: red SnackBar, we stay on the login page.</p></aside>
+</section>
+
+<!-- 14 · AuthGate -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 5 · AuthGate</p>
+      <h2 class="title">AuthGate · stay logged in</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr; gap: 2.2cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/auth_gate.dart</span><span class="grow"></span><span>AuthGate · build()</span></div>
+<pre class="hl" data-groups="2:g4;4-8:g2;9-11:g3;12:g1">    return StreamBuilder&lt;User?&gt;(
+      stream: AuthService().authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (snapshot.hasData) {
+          return const HomePage();
+        }
+        return const LoginPage();
+      },
+    );</pre>
+      </div>
+      <div class="side" style="gap:1.2cqw;">
+        <svg class="flow" viewBox="0 0 640 228" role="img" aria-label="AuthGate decision: the authStateChanges stream goes to the question user?; while waiting show a spinner, yes shows HomePage, no shows LoginPage">
+          <defs><marker id="fa14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="fl-head" d="M0 0 10 5 0 10z"/></marker></defs>
+          <rect class="fl-g4" x="2" y="80" width="182" height="70" rx="12"/>
+          <text class="fl-t" x="93" y="104" style="font-size:14.5px;">authStateChanges()</text>
+          <text class="fl-s" x="93" y="130" style="font-family:var(--font-mono);">Stream&lt;User?&gt;</text>
+          <path class="fl-line" d="M184 115H218" marker-end="url(#fa14)"/>
+          <path class="fl-key" d="M277 58 334 115 277 172 220 115z"/>
+          <text class="fl-t" x="277" y="115" style="font-size:18px;">user?</text>
+          <path class="fl-line fl-dash" d="M334 115C384 115 384 34 432 34" marker-end="url(#fa14)"/>
+          <text class="fl-lbl" x="382" y="62" style="text-anchor:end;">waiting</text>
+          <path class="fl-line" d="M334 115H432" marker-end="url(#fa14)"/>
+          <text class="fl-lbl fl-yes" x="406" y="101" style="font-size:14px;">yes</text>
+          <path class="fl-line" d="M334 115C384 115 384 196 432 196" marker-end="url(#fa14)"/>
+          <text class="fl-lbl fl-no" x="382" y="168" style="font-size:14px; text-anchor:end;">no</text>
+          <rect class="fl-g2" x="436" y="8" width="200" height="52" rx="12"/>
+          <text class="fl-t fl-tb" x="536" y="34">spinner</text>
+          <rect class="fl-g3" x="436" y="89" width="200" height="52" rx="12"/>
+          <text class="fl-t" x="536" y="115">HomePage</text>
+          <rect class="fl-g1" x="436" y="170" width="200" height="52" rx="12"/>
+          <text class="fl-t" x="536" y="196">LoginPage</text>
+        </svg>
+        <div class="defs defs--sm stagger" style="gap:.65cqw;">
+          <div class="def"><code>Stream</code><span>A list of values that arrive over time (like a radio: news keeps coming)</span></div>
+          <div class="def"><code>StreamBuilder</code><span>FutureBuilder's brother (Lecture 18): it rebuilds every time a new value arrives</span></div>
+          <div class="def"><code>authStateChanges()</code><span>Sends the current user at start, then a new value on every sign in and sign out</span></div>
+          <div class="def"><code>restart</code><span>Firebase saves the signed-in user on the phone: the first value is that user, so <b>Home opens directly</b></span></div>
+          <div class="def"><code>main.dart</code><span><code>home: AuthGate()</code></span></div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>This is the "gate" at the entrance: it checks your card and sends you to the right room.</p><p>The spinner shows only for a moment at start-up while Firebase reads the saved user. The colors in the diagram match the colored lines in the code.</p></aside>
+</section>
+
+<!-- 15 · Home page and Logout -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 5 · Home page</p>
+      <h2 class="title">Home page and Logout</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 2cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>lib/home_page.dart</span><span class="grow"></span><span>HomePage</span></div>
+<pre class="hl" data-groups="3-5:g1;9-12:g2">// Inside StreamBuilder&lt;User?&gt;(stream: authService.userChanges(), …),
+// three Texts show:
+'Welcome, ${user.displayName ?? 'friend'}!',
+'You are logged in as ${user.email}',
+'uid: ${user.uid}',
+
+AppButton(
+  text: 'Logout',
+  onPressed: () async {
+    final messenger = ScaffoldMessenger.of(context);
+    await authService.signOut(); // AuthGate shows LoginPage
+    showAppSnackBar(messenger, 'You are logged out.');
+  },
+),</pre>
+      </div>
+      <div class="explain stagger" style="gap:1cqw;">
+        <div class="defs defs--sm">
+          <div class="def"><code>HomePage</code><span>Takes no <code>email</code> any more (Lecture 9): it asks Firebase for the user</span></div>
+          <div class="def"><code>userChanges()</code><span>Like <code>authStateChanges()</code>, but also fires when the profile changes, so the name saved right after sign-up appears</span></div>
+          <div class="def"><code>??</code><span>"if this is null, use that"</span></div>
+        </div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-log-out"/></svg><div>Logout: no <code>Navigator.pop</code>. <code>signOut()</code> makes the AuthGate show the LoginPage.</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="appbar">Home</div>
+          <div class="col" style="gap:.6em; padding-top:1.6em; text-align:center;">
+            <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+            <div class="m-title is-tag" data-tag="user.displayName" style="margin-top:.5em; padding-top:.5em;">Welcome, Ali!</div>
+            <div class="m-sub">You are logged in as ali@email.ly</div>
+            <div style="font-size:.6em; color:#9E9E9E; overflow-wrap:anywhere;">uid: 9fXq2LmR7tKbW4cYp1NzA8sHdE53</div>
+            <div class="m-btn m-btn--fill is-wide is-tag" data-tag="signOut()" style="margin-top:1.4em;">Logout</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Point at the <code>uid</code>: the same long text appears in the console's Users tab. Every Firebase user has one, and it never changes.</p><p>After Logout the LoginPage appears and the SnackBar "You are logged out." shows at the bottom.</p></aside>
+</section>
+
+<!-- 16 · Bonus · Forgot password? -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Bonus · AuthService + login page</p>
+      <h2 class="title">Bonus · "Forgot password?"</h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 2cqw; align-items:start;">
+      <div class="side">
+        <div class="term code code--lg">
+          <div class="term__bar"><i></i><i></i><i></i><span>lib/services/auth_service.dart</span><span class="grow"></span><span>AuthService</span></div>
+<pre class="hl" data-hl="1,3">  Future&lt;String?&gt; sendPasswordReset(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return messageFor(e.code);
+    }
+  }</pre>
+        </div>
+        <div class="callout callout--info" style="max-width:50cqw;"><svg class="ico"><use href="#i-mail"/></svg><div>The email comes from <code>noreply@&lt;your-project-id&gt;.firebaseapp.com</code> (check the spam folder); its link opens a Firebase page to type a new password.</div></div>
+      </div>
+      <div class="explain stagger">
+        <div class="callout"><svg class="ico"><use href="#i-key"/></svg><div>The "Forgot password?" button calls <code>_resetPassword()</code>: it reads the email field (empty → "Type your email first.")</div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Success message: "If ali@email.ly has an account, a reset link is on its way."</div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-shield"/></svg><div><b>Why "if"?</b> Email enumeration protection again: Firebase does not say whether the account exists.</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-field" style="margin-top:.8em;"><span class="lbl">Email</span><svg class="ico"><use href="#i-mail"/></svg>ali@email.ly</div>
+            <div class="m-field" style="margin-top:.5em;"><svg class="ico"><use href="#i-lock"/></svg>Password</div>
+            <div class="m-btn m-btn--text is-tag" data-tag="_resetPassword()" style="align-self:flex-end; height:2em; margin-top:.4em;">Forgot password?</div>
+            <div class="m-btn m-btn--fill is-wide">Login</div>
+          </div>
+          <div class="snack snack--ok">If ali@email.ly has an account, a reset link is on its way.</div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Test it with a real email address you can open.</p><p>You can change the email text in the console: Authentication → Templates.</p></aside>
+</section>
+
+<!-- 17 · Optional · Form + validator -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Optional · self-study</p>
+      <h2 class="title">Optional · A preview of <code>Form</code> + <code>validator</code></h2>
+    </header>
+    <div class="body" style="grid-template-columns: auto 1fr auto; gap: 2cqw; align-items:start;">
+      <div class="term code code--sm">
+        <div class="term__bar"><i></i><i></i><i></i><span>a preview, not in our app</span></div>
+<pre class="hl" data-groups="1-3:g1;7-12:g2;15:g3">final _formKey = GlobalKey&lt;FormState&gt;();
+Form(
+  key: _formKey,
+  child: TextFormField(
+    controller: _emailController,
+    decoration: const InputDecoration(labelText: 'Email'),
+    validator: (value) {
+      if (value == null || value.trim().isEmpty) {
+        return 'Enter your email';
+      }
+      return null; // null = OK
+    },
+  ),
+),
+// On the button: if (_formKey.currentState!.validate()) { … }</pre>
+      </div>
+      <div class="explain stagger">
+        <div class="say" style="font-size:1.32cqw;"><p>Flutter's built-in way to check fields: red text <b>under</b> the field instead of a SnackBar.</p></div>
+        <div class="defs defs--sm">
+          <div class="def"><code>validator</code><span>Returns a message (problem) or <code>null</code> (OK)</span></div>
+          <div class="def"><code>validate()</code><span>Runs all validators of the form</span></div>
+        </div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-info"/></svg><div><b>We do not use it in our app today</b>: our simple checks + SnackBars are enough.</div></div>
+      </div>
+      <div class="ph" style="--pw:12.5cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="col" style="gap:.75em; padding-top:2.6em;">
+            <div style="display:grid; place-items:center;"><svg class="logo" style="width:3em; height:3.8em;"><use href="#flutter-logo"/></svg></div>
+            <div class="m-title" style="text-align:center;">Welcome back</div>
+            <div class="m-sub" style="text-align:center;">Log in to continue</div>
+            <div class="m-under is-tag" data-tag="TextFormField" style="margin-top:1em; border-bottom:.16em solid #B3261E; color:#B3261E;">Email</div>
+            <div style="margin-top:-.4em; padding-left:.2em; font-size:.75em; color:#B3261E;">Enter your email</div>
+            <div class="m-btn m-btn--fill is-wide is-tag" data-tag="validate()" style="margin-top:1em;">Login</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Optional slide, skip it if time is short. It answers the question "how do apps show the red text under a field?" and is a nice self-study topic (Homework bonus).</p></aside>
+</section>
+
+<!-- 18 · Test it live -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Step 6 · Try it</p>
+      <h2 class="title">Test it live</h2>
+    </header>
+    <div class="body probs" style="gap:1.4cqw;">
+      <table class="tbl tbl--probs">
+        <thead><tr><th><svg class="ico"><use href="#i-play"/></svg>Try this</th><th><svg class="ico"><use href="#i-eye"/></svg>You should see</th></tr></thead>
+        <tbody>
+          <tr><td>Sign up: Ali, <code>ali@email.ly</code>, <code>123456</code></td><td><span class="msg msg--ok">Account created. Welcome, Ali!</span> → Home "Welcome, Ali!"</td></tr>
+          <tr><td>Logout, then sign up again with the same email</td><td><span class="msg msg--bad">This email already has an account. Try logging in.</span></td></tr>
+          <tr><td>Log in with a wrong password</td><td><span class="msg msg--bad">Wrong email or password.</span></td></tr>
+          <tr><td>Log in correctly</td><td><span class="msg msg--ok">Welcome back!</span> → Home</td></tr>
+          <tr><td>Close the app completely, open it again</td><td>Home directly: <b>still logged in</b></td></tr>
+          <tr><td>Console → Authentication → <b>Users</b></td><td><code>ali@email.ly</code>, its User UID and today's date</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout--info"><svg class="ico"><use href="#i-wifi"/></svg><div>Extra: turn on airplane mode and try to log in. You should see <span class="msg msg--bad" style="font-size:.95em;">No internet connection. Check your network.</span></div></div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Do the whole table live with the class, then refresh the Users tab in the console.</p><p>Turn on airplane mode and try to log in: "No internet connection. Check your network.". In the console you can also disable a user (⋮ menu → Disable account) and show the <code>user-disabled</code> message.</p></aside>
+</section>
+
+<!-- 19 · Summary -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Wrap-up</p>
+      <h2 class="title">Summary</h2>
+    </header>
+    <div class="body wrap" style="grid-template-columns: 1.4fr .6fr; align-items:center;">
+      <article class="card card--hl">
+        <h3>Remember</h3>
+        <ul class="checklist stagger" style="gap:1.6cqw; margin-top:1.6cqw;">
+          <li><span><code>TextEditingController</code>: create in State, read <code>.text</code>, <code>dispose()</code></span></li>
+          <li><span><code>AuthService</code>: <code>signUp</code> (+ <code>updateDisplayName</code>), <code>signIn</code>, <code>signOut</code>, <code>sendPasswordReset</code>; returns <code>null</code> or a message</span></li>
+          <li><span>Errors: <code>FirebaseAuthException.code</code> → <code>messageFor</code>; wrong email or password = <code>invalid-credential</code></span></li>
+          <li><span>Loading button + green / red SnackBars; take <code>messenger</code> before <code>await</code>, check <code>mounted</code> after</span></li>
+          <li><span><code>AuthGate</code> = <code>StreamBuilder</code> + <code>authStateChanges()</code>: Login or Home, and you stay logged in</span></li>
+        </ul>
+      </article>
+      <div class="side" style="align-content:center; gap:2.4cqw;">
+        <div class="qa__big grad-text" style="font-size:4.2cqw;">Questions?</div>
+        <div class="card next">
+          <h4>Next lecture</h4>
+          <p>"Continue with Google"</p>
+          <p class="small muted" style="font-family:var(--font-body); font-weight:400; margin-top:.5cqw;">on the same login page, with the same <code>AuthService</code> and the same <code>AuthGate</code></p>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Next lecture: a "Continue with Google" button on the same login page, using the same <code>AuthService</code> and the same <code>AuthGate</code>.</p></aside>
+</section>
+
+<!-- 20 · Homework -->
+<section class="slide">
+  <div class="canvas"><div class="frame">
+    <header class="head">
+      <p class="kicker">Practice at home</p>
+      <h2 class="title">Homework</h2>
+    </header>
+    <div class="body" style="grid-template-columns: 1fr auto auto; gap: 2cqw; align-items:start;">
+      <ol class="steps bigsteps bigsteps--pins stagger" style="align-self:center;">
+        <li><span>Show "Member since" on Home with <code>user.metadata.creationTime</code></span></li>
+        <li><span>Add a "Confirm password" field to the sign-up page</span></li>
+        <li><span>Show / hide the password with an eye icon in <code>AppTextField</code></span></li>
+        <li><span>Arabic error messages with <code>easy_localization</code> (Lecture 11)</span></li>
+        <li><span><b>Bonus:</b> email verification with <code>sendEmailVerification()</code>, or rewrite the sign-up checks with <code>Form</code> + <code>validator</code></span></li>
+      </ol>
+      <div class="ph" style="--pw:12cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="appbar">Home</div>
+          <div class="col" style="gap:.6em; padding-top:1.6em; text-align:center;">
+            <div style="display:grid; place-items:center;"><svg class="ico" style="width:4.2em; height:4.2em; color:#1D1B20; stroke-width:1.5;"><use href="#i-hand"/></svg></div>
+            <div class="m-title" style="margin-top:.5em;">Welcome, Ali!</div>
+            <div class="m-sub">You are logged in as ali@email.ly</div>
+            <div style="font-size:.6em; color:#9E9E9E; overflow-wrap:anywhere;">uid: 9fXq2LmR7tKbW4cYp1NzA8sHdE53</div>
+            <div class="m-sub is-tag" data-tag="1" style="margin-top:.4em;">Member since: 2/11/2026</div>
+            <div class="m-btn m-btn--fill is-wide" style="margin-top:1em;">Logout</div>
+          </div>
+        </div>
+      </div>
+      <div class="ph" style="--pw:12cqw;">
+        <div class="ph__scr"><div class="ph__island"></div>
+          <div class="appbar"><svg class="ico ico-m"><use href="#i-arrow-left"/></svg></div>
+          <div class="col" style="gap:.75em; padding-top:.4em;">
+            <div class="m-title" style="text-align:center;">Create account</div>
+            <div class="m-sub" style="text-align:center;">Sign up to get started</div>
+            <div class="m-field" style="margin-top:.8em;"><svg class="ico"><use href="#i-user"/></svg>Name</div>
+            <div class="m-field"><svg class="ico"><use href="#i-mail"/></svg>Email</div>
+            <div class="m-field is-tag" data-tag="3"><svg class="ico"><use href="#i-lock"/></svg>Password<span class="grow"></span><svg class="ico"><use href="#i-eye"/></svg></div>
+            <div class="m-field is-tag" data-tag="2"><svg class="ico"><use href="#i-lock"/></svg>Confirm password</div>
+            <div class="m-btn m-btn--fill is-wide" style="margin-top:.6em;">Create account</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+  </div></div>
+  <aside class="notes"><p>Details and "done looks like" for each exercise are in the Homework section of the lecture plan.</p><p>1: "Member since" uses <code>user.metadata.creationTime</code> (UTC: call <code>.toLocal()</code>). 2: "Passwords do not match." in a red SnackBar. 3: <code>AppTextField</code> becomes a StatefulWidget with an eye <code>IconButton</code>. 4: move the <code>messageFor</code> texts into the JSON files. 5: <code>sendEmailVerification()</code> and <code>user.emailVerified</code>, or <code>Form</code> + <code>validator</code>.</p></aside>
+</section>
+
+</main>
+
+<div class="notes-panel" hidden>
+  <h4 class="np-title">Speaker notes</h4>
+  <div class="np-body"></div>
+</div>
+<div class="hint" aria-hidden="true"><kbd>←</kbd> <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>N</kbd> notes · <kbd>T</kbd> theme</div>
+
+<script src="js/deck.js"></script>
+</body>
+</html>
