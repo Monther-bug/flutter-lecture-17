@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Lecture 21 · Email &amp; Password Auth</title>
-  <meta name="description" content="Mobile App Development with Flutter, Lecture 21: Turn the login and sign-up pages into real ones with Firebase Authentication: read fields with TextEditingController, sign up, sign in and sign out, show friendly error messages, and stay logged in with an AuthGate.">
+  <title>Lecture 17 · Email &amp; Password Auth</title>
+  <meta name="description" content="Mobile App Development with Flutter, Lecture 17: Turn the login and sign-up pages into real ones with Firebase Authentication: read fields with TextEditingController, sign up, sign in and sign out, show friendly error messages, and stay logged in with an AuthGate.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet">
@@ -91,7 +91,7 @@
 <section class="slide">
   <div class="canvas"><div class="frame frame--title" style="grid-template-columns: 1.08fr .92fr;">
     <div class="stagger">
-      <p class="kicker">Lecture 21 · Mobile App Development</p>
+      <p class="kicker">Lecture 17 · Mobile App Development</p>
       <h1 class="hero">Firebase 2:<br>Email &amp; Password<br><span class="grad-text">Authentication</span></h1>
       <p class="lead lead--hero">Real accounts for our login page.</p>
       <div class="chips">
@@ -151,7 +151,7 @@
       </div>
     </div>
   </div></div>
-  <aside class="notes"><p>In Lecture 20 we connected the app to Firebase. Today the buttons stop showing fake SnackBars: every account you create appears in the Firebase console.</p><p>The three phones are today's story: sign up as Ali, land on Home, log out, and come back to the login page.</p></aside>
+  <aside class="notes"><p>In Lecture 16 we connected the app to Firebase. Today the buttons stop showing fake SnackBars: every account you create appears in the Firebase console.</p><p>The three phones are today's story: sign up as Ali, land on Home, log out, and come back to the login page.</p></aside>
 </section>
 
 <!-- 02 · Learning objectives -->
@@ -172,7 +172,7 @@
       </div>
       <div class="callout callout--ok goal"><svg class="ico"><use href="#i-target"/></svg><div><b>Goal:</b> close the app completely, open it again, and you are <b>still logged in</b>, like in real apps.</div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Tell students that at the end they will close the app completely, open it again, and still be logged in, like in real apps.</p></aside>
 </section>
@@ -218,7 +218,7 @@
         <path class="fl-line" d="M830 197H774" marker-end="url(#fa3)"/>
       </svg>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Sign up happens once per person, sign in happens many times. Note that a successful sign up also signs the user in, so they go straight to Home.</p><p>Point at the AuthGate box: it is the new idea of today.</p></aside>
 </section>
@@ -246,7 +246,7 @@
         <div class="row is-star"><span><span class="g">   └─ </span><span class="f">app_snack_bar.dart</span></span><span class="note">new: green / red messages</span></div>
       </div>
       <div class="explain stagger">
-        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Console: <b>Email/Password</b> is <b>Enabled</b> (Lecture 20)</div></div>
+        <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Console: <b>Email/Password</b> is <b>Enabled</b> (Lecture 16)</div></div>
         <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>pubspec.yaml</code> has <code>firebase_auth: ^7.0.1</code></div></div>
         <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div><code>main()</code> calls <code>Firebase.initializeApp</code></div></div>
         <div class="card" style="display:grid; gap:.8cqw; padding:1.3cqw 1.5cqw;">
@@ -256,9 +256,9 @@
         <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div>A <b>service</b> is a plain Dart class that does one job. Our pages never call Firebase directly: they ask <code>AuthService</code>.</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
-  <aside class="notes"><p>A <b>service</b> is a plain Dart class that does one job. Our pages will never call Firebase directly: they ask <code>AuthService</code>. If we ever change how login works, we change one file.</p><p><code>lib/firebase_options.dart</code> from Lecture 20 is still there (not shown). The yellow rows are the new files.</p></aside>
+  <aside class="notes"><p>A <b>service</b> is a plain Dart class that does one job. Our pages will never call Firebase directly: they ask <code>AuthService</code>. If we ever change how login works, we change one file.</p><p><code>lib/firebase_options.dart</code> from Lecture 16 is still there (not shown). The yellow rows are the new files.</p></aside>
 </section>
 
 <!-- 05 · TextEditingController -->
@@ -309,7 +309,7 @@
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>In Lecture 9 we saved the email with <code>onChanged</code> + <code>setState</code>. That works for one field; with three fields (name, email, password) a controller per field is simpler, and we do not rebuild the page on every key press.</p><p>The names start with <code>_</code>: private to this file.</p></aside>
 </section>
@@ -350,7 +350,7 @@
 <pre class="hl">AppTextField(label: 'Email', icon: Icons.email, controller: _emailController, keyboardType: TextInputType.emailAddress)</pre>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Both parameters are optional (no <code>required</code>), so every page that already uses <code>AppTextField</code> keeps working. Same idea as <code>onChanged</code> in Lecture 9.</p><p>The full file is in the Complete example.</p></aside>
 </section>
@@ -403,7 +403,7 @@
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Waiting for a server takes from half a second to a few seconds. Without a loading state, users tap again and again.</p><p>On the phone: while Firebase works, the Login button is grey with a spinner, and "Forgot password?" and "Sign up" are disabled too.</p></aside>
 </section>
@@ -442,10 +442,10 @@
         </div>
         <div class="callout callout--info"><svg class="ico"><use href="#i-user-plus"/></svg><div><code>createUserWithEmailAndPassword</code> creates the account <b>and</b> signs the user in</div></div>
         <div class="callout callout--info"><svg class="ico"><use href="#i-user"/></svg><div><code>credential.user</code> is the new user; <code>updateDisplayName(name)</code> saves the name in Firebase</div></div>
-        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><code>try</code> … <code>on FirebaseAuthException catch (e)</code> (Lecture 19): if Firebase says no, we jump to <code>catch</code></div></div>
+        <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div><code>try</code> … <code>on FirebaseAuthException catch (e)</code> : new today. Dart tries the code; if Firebase says no, it jumps to <code>catch</code></div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p><code>credential.user?.</code> with <code>?.</code> means "only if the user is not null".</p><p>Explain the <code>String?</code> return idea slowly: it keeps the pages very simple, as we will see.</p></aside>
 </section>
@@ -492,7 +492,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         <div class="callout callout--info"><svg class="ico"><use href="#i-bulb"/></svg><div><b>Quick check:</b> what does <code>signIn</code> return when the password is wrong? And when it is right?</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Ask: what would <code>signIn</code> return if the password is wrong? (A text, from <code>messageFor</code>.) What if it is right? (<code>null</code>.)</p><p><code>currentUser</code> is the signed-in user or null; <code>authStateChanges()</code> is the stream we use in the AuthGate.</p></aside>
 </section>
@@ -537,7 +537,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         <div class="callout callout--warn"><svg class="ico"><use href="#i-shield"/></svg><div><b>Email enumeration protection</b> (on by default for new projects since September 2023): a wrong email <b>or</b> a wrong password both give <code>invalid-credential</code>, so strangers cannot find out which emails have accounts. <code>user-not-found</code> / <code>wrong-password</code> only appear in old projects.</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>This is the body of <code>String messageFor(String code)</code> in <code>AuthService</code>. The codes come from the <code>firebase_auth</code> 7.0.1 documentation.</p><p>Show it live: log in with an email that does not exist, then with a wrong password: both show "Wrong email or password.".</p></aside>
 </section>
@@ -581,7 +581,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         <div class="callout callout--warn"><svg class="ico"><use href="#i-alert"/></svg><div>We take <code>messenger</code> and <code>navigator</code> <b>before</b> any <code>await</code> (next slide explains why).</div></div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>We do not trim the password: spaces can be part of a password.</p><p>Firebase checks everything again on the server anyway (<code>invalid-email</code>, <code>weak-password</code>), and <code>messageFor</code> handles those.</p></aside>
 </section>
@@ -615,7 +615,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
       <div class="explain stagger" style="gap:.9cqw;">
         <div class="defs defs--sm" style="gap:.7cqw;">
           <div class="def"><code>setState</code><span><code>() =&gt; _isLoading = true</code>: the button shows a spinner (<code>() =&gt; x = y</code> is short for <code>() { x = y; }</code>)</span></div>
-          <div class="def"><code>await</code><span>Waits for Firebase's answer (Lecture 18)</span></div>
+          <div class="def"><code>await</code><span>Waits for Firebase's answer (Lecture 15)</span></div>
           <div class="def"><code>mounted</code><span><code>if (!mounted) return;</code>: the user may have left the page meanwhile</span></div>
         </div>
         <div class="callout callout--ok"><svg class="ico"><use href="#i-check-circle"/></svg><div>Success: green SnackBar, then <code>pop()</code> back. Underneath, the AuthGate already shows HomePage.</div></div>
@@ -635,7 +635,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Why <code>messenger</code> before <code>await</code>? After an <code>await</code>, the page (and its <code>context</code>) may already be gone, and the analyzer warns about using <code>context</code> across an await. <code>mounted</code> is true while the page is on the screen.</p><p>The phone shows the result: the sign-up page was popped, the AuthGate shows Home, and the green SnackBar is still visible.</p></aside>
 </section>
@@ -688,7 +688,7 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Compare with Lecture 9, where Login pushed <code>HomePage(email: email)</code>. Now the page only signs in; deciding which page to show is the AuthGate's job.</p><p>Calling <code>setState</code> on a page that is gone causes the error "setState() called after dispose()". The phone shows a wrong password: red SnackBar, we stay on the login page.</p></aside>
 </section>
@@ -742,14 +742,14 @@ Stream&lt;User?&gt; authStateChanges() =&gt; _auth.authStateChanges();</pre>
         </svg>
         <div class="defs defs--sm stagger" style="gap:.65cqw;">
           <div class="def"><code>Stream</code><span>A list of values that arrive over time (like a radio: news keeps coming)</span></div>
-          <div class="def"><code>StreamBuilder</code><span>FutureBuilder's brother (Lecture 18): it rebuilds every time a new value arrives</span></div>
+          <div class="def"><code>StreamBuilder</code><span>FutureBuilder's brother (Lecture 15): it rebuilds every time a new value arrives</span></div>
           <div class="def"><code>authStateChanges()</code><span>Sends the current user at start, then a new value on every sign in and sign out</span></div>
           <div class="def"><code>restart</code><span>Firebase saves the signed-in user on the phone: the first value is that user, so <b>Home opens directly</b></span></div>
           <div class="def"><code>main.dart</code><span><code>home: AuthGate()</code></span></div>
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>This is the "gate" at the entrance: it checks your card and sends you to the right room.</p><p>The spinner shows only for a moment at start-up while Firebase reads the saved user. The colors in the diagram match the colored lines in the code.</p></aside>
 </section>
@@ -800,7 +800,7 @@ AppButton(
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Point at the <code>uid</code>: the same long text appears in the console's Users tab. Every Firebase user has one, and it never changes.</p><p>After Logout the LoginPage appears and the SnackBar "You are logged out." shows at the bottom.</p></aside>
 </section>
@@ -847,7 +847,7 @@ AppButton(
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Test it with a real email address you can open.</p><p>You can change the email text in the console: Authentication → Templates.</p></aside>
 </section>
@@ -899,7 +899,7 @@ Form(
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Optional slide, skip it if time is short. It answers the question "how do apps show the red text under a field?" and is a nice self-study topic (Homework bonus).</p></aside>
 </section>
@@ -925,7 +925,7 @@ Form(
       </table>
       <div class="callout callout--info"><svg class="ico"><use href="#i-wifi"/></svg><div>Extra: turn on airplane mode and try to log in. You should see <span class="msg msg--bad" style="font-size:.95em;">No internet connection. Check your network.</span></div></div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Do the whole table live with the class, then refresh the Users tab in the console.</p><p>Turn on airplane mode and try to log in: "No internet connection. Check your network.". In the console you can also disable a user (⋮ menu → Disable account) and show the <code>user-disabled</code> message.</p></aside>
 </section>
@@ -957,7 +957,7 @@ Form(
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Next lecture: a "Continue with Google" button on the same login page, using the same <code>AuthService</code> and the same <code>AuthGate</code>.</p></aside>
 </section>
@@ -1005,7 +1005,7 @@ Form(
         </div>
       </div>
     </div>
-    <footer class="foot"><span>Mobile App Development · Lecture 21</span><span class="num"></span></footer>
+    <footer class="foot"><span>Mobile App Development · Lecture 17</span><span class="num"></span></footer>
   </div></div>
   <aside class="notes"><p>Details and "done looks like" for each exercise are in the Homework section of the lecture plan.</p><p>1: "Member since" uses <code>user.metadata.creationTime</code> (UTC: call <code>.toLocal()</code>). 2: "Passwords do not match." in a red SnackBar. 3: <code>AppTextField</code> becomes a StatefulWidget with an eye <code>IconButton</code>. 4: move the <code>messageFor</code> texts into the JSON files. 5: <code>sendEmailVerification()</code> and <code>user.emailVerified</code>, or <code>Form</code> + <code>validator</code>.</p></aside>
 </section>
